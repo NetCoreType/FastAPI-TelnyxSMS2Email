@@ -1,0 +1,39 @@
+services:
+  fastapi-telnyxsms2email:
+    image: netcoretype/fastapi-telnyxsms2email:latest
+    container_name: fastapi-telnyxsms2email
+    hostname: fastapi-telnyxsms2email
+    env_file:
+      - .env
+    volumes:
+      - fastapi_data:/data
+    networks:
+      - caddy_network
+    expose:
+      - 8000
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:latest
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - /opt/caddy:/etc/caddy
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - caddy_network
+
+volumes:
+  fastapi_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  caddy_network:
+    driver: bridge
