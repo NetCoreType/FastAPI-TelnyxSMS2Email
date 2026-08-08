@@ -108,7 +108,7 @@ Below the setup will walk you through cloning the github, setting up the docker-
     invoke a rest method that you will be able to see in the logs of the docker container showing the message the was received,
     and will receive an email with the test message.
 
-        **Template modified from 'https://developers.telnyx.com/docs/messaging/messages/receive-message' **
+    **Template modified from <https://developers.telnyx.com/docs/messaging/messages/receive-message>**
 
     ```powershell
     # Define the target URL
