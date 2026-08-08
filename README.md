@@ -104,9 +104,7 @@ Below the setup will walk you through cloning the github, setting up the docker-
     +13125000000,telnyx@email.com
     ```
 
-8.  Everything should be up and working now, if you want to test out if it works. Running the follow powershell command will
-    invoke a rest method that you will be able to see in the logs of the docker container showing the message the was received,
-    and will receive an email with the test message.
+8.  Everything should be up and working now. For testing, use the follow powershell command to invoke a rest method. The container will log the message and report where it was sent to. Check out the docker logs the email successful message, and the /data/message_log folder in the docker named volume to see what was sent.
 
     **Template modified from <https://developers.telnyx.com/docs/messaging/messages/receive-message>**
 
