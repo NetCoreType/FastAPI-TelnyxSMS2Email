@@ -18,7 +18,7 @@ Below the setup will walk you through cloning the github, setting up the docker-
 
 ## Setup
 
-1.  Clone this repository: `git clone https://github.com/NetCoreType/TelnyxSMS2Email.git`, then enter the directory `cd TelnyxSMS2Email` or do a `docker pull netcoretype/fastapi-telnyxsms2email`. If you pull the container from docker hub, skip step 2.
+1.  Clone this repository: `git clone https://github.com/NetCoreType/FastAPI-TelnyxSMS2Email.git`, then enter the directory `cd FastAPI-TelnyxSMS2Email` or do a `docker pull netcoretype/fastapi-telnyxsms2email`. If you pull the container from docker hub, skip step 2.
 
 2.  Run the command `docker build -t fastapi-telnyxsms2email .`
 
