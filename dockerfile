@@ -1,46 +1,39 @@
-# -----------------------------
-# Stage 1 - Build dependencies
-# -----------------------------
-FROM python:3.14-slim AS builder
-
-ENV PIP_NO_CACHE_DIR=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
-
-WORKDIR /app
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY requirements.txt .
-
-RUN pip install --prefix=/install -r requirements.txt
-
-
-# -----------------------------
-# Stage 2 - Runtime
-# -----------------------------
-FROM python:3.14-slim
+FROM dhi.io/python:3.14-dev AS builder
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
-# Create a non-root user
-RUN useradd --create-home --uid 10001 appuser
+WORKDIR /build
 
-RUN mkdir /data && chown appuser:appuser /data
+RUN python3 -m venv /venv
+
+ENV PATH="/venv/bin:$PATH"
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+RUN mkdir -p /data
+
+
+FROM dhi.io/python:3.14
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PATH="/venv/bin:$PATH"
 
 WORKDIR /app
 
-# Copy installed packages
-COPY --from=builder /install /usr/local
+COPY --from=builder /venv /venv
 
-# Copy application
-COPY --chown=appuser:appuser ./app .
+COPY --from=builder --chown=65532:65532 /data /data
 
-USER appuser
+COPY --from=builder --chown=65532:65532 /build/app/ /app/
 
 EXPOSE 8000
+
+USER 65532:65532
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
