@@ -17,7 +17,6 @@ COPY . .
 
 RUN mkdir -p /data
 
-
 FROM dhi.io/python:3.14
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
