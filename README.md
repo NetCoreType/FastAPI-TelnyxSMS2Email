@@ -96,7 +96,7 @@ Below the setup will walk you through cloning the github, setting up the docker-
     docker compose up -d
     ```
 
-7.  Edit the email_list file in the docker-named volume and add the a phone number and email address:
+7.  Edit the email_list file in the docker-named volume and add the phone numbers and email addresses:
 
     ```bash
     phone_number,email_address
