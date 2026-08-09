@@ -11,3 +11,4 @@ README.md
 docker_compose.yaml
 *.old
 /.vscode
+*.dev.yaml

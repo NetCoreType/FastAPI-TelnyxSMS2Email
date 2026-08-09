@@ -31,6 +31,8 @@ COPY --from=builder --chown=65532:65532 /data /data
 
 COPY --from=builder --chown=65532:65532 /build/app/ /app/
 
+COPY --from=builder --chown=65532:65532 /build/scripts/ /app/scripts/
+
 EXPOSE 8000
 
 USER 65532:65532

@@ -13,16 +13,16 @@ class CSVHandler:
         self.email_dict = self.load_csv_to_dict()
 
     def check_path(self):
-            path = Path(PATH)
-            if not path.is_dir():
-                path.mkdir(parents=True)
-    
+        path = Path(PATH)
+        if not path.is_dir():
+            path.mkdir(parents=True)
+
     def check_for_email_list_file(self):
         path = Path(EMAIL_LIST_PATH)
         if not path.is_file():
             with open(EMAIL_LIST_PATH, "w") as file:
                 file.write("phone_number,email_address")
-    
+
     def load_csv_to_dict(self):
         dict = {}
         with open(EMAIL_LIST_PATH, "r") as email_file:
@@ -37,7 +37,7 @@ class CSVHandler:
             email_address = self.email_dict[to_phone_number]["email_address"]
             if "@" in email_address:
                 return email_address
-            else: 
+            else:
                 return 0
         else:
             return 0
@@ -46,5 +46,3 @@ class CSVHandler:
         message_time = datetime.fromisoformat(message_occured_time)
         with open(f"{PATH}{message_time.strftime("%Y-%m-%d_%H-%M-%S")}", "w") as file:
             file.write(f"FROM: {from_address}\nTO: {to_address}\n{message_text}")
-
-    

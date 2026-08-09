@@ -39,6 +39,12 @@ Below the setup will walk you through cloning the github, setting up the docker-
         expose:
           - 8000
         restart: unless-stopped
+        healthcheck:
+          test: ["CMD", "python", "/app/scripts/healthcheck.py"]
+          interval: 30s
+          timeout: 5s
+          retries: 3
+          start_period: 10s
 
       caddy:
         image: caddy:latest
@@ -56,12 +62,12 @@ Below the setup will walk you through cloning the github, setting up the docker-
         networks:
           - caddy_network
 
-      volumes:
+    volumes:
       fastapi_data:
       caddy_data:
       caddy_config:
 
-      networks:
+    networks:
       caddy_network:
         driver: bridge
     ```

@@ -1,4 +1,5 @@
 import logging
+from route_log_filter import RouteLogFilter
 from settings import Settings
 from json_classes import Root
 from fastapi import FastAPI, BackgroundTasks
@@ -9,11 +10,12 @@ email_handler = EmailHandler()
 csv_handler = CSVHandler()
 settings = Settings()  # pyright: ignore[reportCallIssue]
 logging.basicConfig(level=logging.INFO)
+logging.getLogger("uvicorn.access").addFilter(RouteLogFilter())
 logger = logging.getLogger(__name__)
-if settings.production is True:
-    app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
-else:
+if settings.production is False:
     app = FastAPI()
+else:
+    app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 
 
 @app.post("/api")
@@ -35,3 +37,8 @@ def capture_message(root: Root, background_tasks: BackgroundTasks):
                 email_handler.build_message, from_address=from_phone_number, to_address=email_address, message_text=text
             )
             logging.info(occurred_at)
+
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
